@@ -1,4 +1,4 @@
-# How to create the virtual requirements
+# How to create the virtual environments
 
 For each demo you will need a Python 3 virtual environment that contains the Python packages that the demos depend on. This requires Python virtual environment support (`venv`). You will also need the Python package manager `pip` to install those packages (other Python package managers are available).
 
