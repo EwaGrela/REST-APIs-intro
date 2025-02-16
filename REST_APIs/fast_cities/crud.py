@@ -7,6 +7,11 @@ from .schemas import CityBase, CountryBase
 def get_city(db: Session):
     return db.query(City)
 
+def get_city_by_city_name(city_name:str, db: Session):
+    city = db.query(City).filter(City.city == city_name).one_or_none()
+    print("CITYYYYYYY", city)
+    return city
+
 def post_city(db: Session, city: CityBase):
     country = db.query(Country).filter(Country.country == city.country).first()
     new_city = City(city=city.city, country=country, city_id=city.city_id, country_id=city.country_id)
