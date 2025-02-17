@@ -44,10 +44,21 @@ def cities(city: schemas.CityBase, db: Session = Depends(get_db)):
     else:
         raise HTTPException(status_code=404, detail="Country does not exist, create country first")
 
-@app.get("cities/{city_name}", status_code=200)
-def single_city(city_name:str, db: Session = Depends(get_db)):
-    city = crud.get_city_by_city_name(db, city_name)
-    return city
+@app.get("/cities/{city}", status_code=200)
+def single_city(city:str, db: Session = Depends(get_db)):
+    city = crud.get_city_by_city_name(db, city)
+    if city:
+        return {"city": city}
+    else:
+        raise HTTPException(status_code=404, detail="City does not exist")
+
+@app.delete("/cities/{city}", status_code=204)
+def single_city(city:str, db: Session = Depends(get_db)):
+    city = crud.get_city_by_city_name(db, city)
+    if city:
+        crud.delete_city_by_city_name(db, city)
+    else:
+        raise HTTPException(status_code=404, detail="City does not exist")
 
 @app.get("/countries/", response_model=List[schemas.Country])
 def country(db: Session = Depends(get_db)):
