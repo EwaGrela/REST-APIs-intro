@@ -4,7 +4,7 @@ from .models import City, Country
 from .schemas import CityBase, CountryBase
 
 
-def get_city(db: Session):
+def get_city(client_id, db: Session):
     return db.query(City)
 
 def get_city_by_city_name(db: Session, city:str):
