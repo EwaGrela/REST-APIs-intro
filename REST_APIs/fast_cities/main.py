@@ -1,5 +1,5 @@
 from datetime import timedelta
-from typing import Annotated, List
+from typing import Annotated, List, Optional
 
 from fastapi import Depends, FastAPI, HTTPException
 from fastapi.encoders import jsonable_encoder
@@ -56,9 +56,9 @@ async def read_users_me(
 
 
 @app.get("/cities/")
-def cities(db: Session = Depends(get_db)):
-    all_cities = crud.get_city(db).all()
-    return all_cities
+def cities(per_page: Optional[int]=None, page: Optional[int]=None, db: Session = Depends(get_db)):
+    found_cities = crud.get_city(db, per_page, page)
+    return found_cities
 
 @app.post("/cities/", status_code=201)
 def cities(city: schemas.CityBase, current_user: Annotated[User, Depends(authenticator.get_current_user)], db: Session = Depends(get_db)):

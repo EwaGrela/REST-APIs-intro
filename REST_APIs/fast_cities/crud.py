@@ -4,8 +4,15 @@ from .models import City, Country
 from .schemas import CityBase, CountryBase
 
 
-def get_city(db: Session):
-    return db.query(City)
+def get_city(db: Session, per_page=None, page=None):
+    cities_in_db = db.query(City)
+    if per_page is None and page is None:
+        cities = cities_in_db.all()
+    elif per_page is not None and page is None:
+        cities = cities_in_db.limit(int(per_page)).all()
+    elif per_page is not None and page is not None:
+        cities = cities_in_db.limit(int(per_page)).offset((int(page) - 1) * int(per_page)).all()
+    return cities
 
 def get_city_by_city_name(db: Session, city:str):
     city = db.query(City).filter(City.city == city).one_or_none()
@@ -19,7 +26,6 @@ def delete_city_by_city_name(db: Session, city: CityBase, client_id):
 def post_city(db: Session, city: CityBase, client_id):
     country = db.query(Country).filter(Country.country == city.country).first()
     new_city = City(city=city.city, country=country, city_id=city.city_id, country_id=city.country_id)
-    print("NEW CITY", new_city)
     db.add(new_city)
     db.commit()
     db.refresh(new_city)
