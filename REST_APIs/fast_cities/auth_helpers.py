@@ -2,7 +2,7 @@ from datetime import datetime, timedelta, timezone
 from typing import Annotated
 
 import jwt 
-from fastapi import Depends, FastAPI, HTTPException, status
+from fastapi import Depends, FastAPI, HTTPException
 from fastapi.security import OAuth2PasswordBearer
 from jwt.exceptions import InvalidTokenError
 from passlib.context import CryptContext
@@ -24,7 +24,7 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 fake_db = {
     "jan_kowalski": {
         "username": "jan_kowalski",
-        "hashed_password": "$2b$12$mJ6V08W3w0pYo6nhNLXleeNtT0kEzAq7cksHwpGJkNGxms1hekWni", # this one can be generated using get_password_hash("your-password-goes-here")
+        "hashed_password": "", # this one can be generated using get_password_hash("your-password-goes-here")
         "client_id": 1
     }
 }
@@ -69,7 +69,7 @@ class Authenticator:
 
     def get_current_user(self, token: Annotated[str, Depends(oauth2_scheme)]):
         credentials_exception = HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
+            status_code=401,
             detail="Could not validate credentials",
             headers={"WWW-Authenticate": "Bearer"},
         )
