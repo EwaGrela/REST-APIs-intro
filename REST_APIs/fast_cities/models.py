@@ -8,7 +8,7 @@ from datetime import datetime, timedelta, timezone
 
 from pydantic import BaseModel
 
-
+# Those are not detained in the main database
 class Token(BaseModel):
     access_token: str
     token_type: str
@@ -29,6 +29,7 @@ class User(BaseModel):
 class UserInDB(User):
     hashed_password: str
 
+# These are datained in DB
 
 class Country(Base):
     __tablename__ = 'country'

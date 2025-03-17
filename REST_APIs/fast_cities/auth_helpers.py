@@ -2,32 +2,13 @@ from datetime import datetime, timedelta, timezone
 from typing import Annotated
 
 import jwt 
-from fastapi import Depends, FastAPI, HTTPException
-from fastapi.security import OAuth2PasswordBearer
+from fastapi import Depends, HTTPException
 from jwt.exceptions import InvalidTokenError
-from passlib.context import CryptContext
 
-from .models import User, UserInDB, Token, TokenData
-
-
-
-# to get a string for secret key run:
-# openssl rand -hex 32
-SECRET_KEY = ""
-ALGORITHM = "HS256"
-ACCESS_TOKEN_EXPIRE_MINUTES = 45
-
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
+from .config import pwd_context, oauth2_scheme, users, ALGORITHM, SECRET_KEY
+from .models import UserInDB, TokenData
 
 
-users = {
-    "jan_kowalski": {
-        "username": "jan_kowalski",
-        "hashed_password": "", # this one can be generated using get_password_hash("your-password-goes-here")
-        "client_id": 1
-    }
-}
 
 class Authenticator:
 

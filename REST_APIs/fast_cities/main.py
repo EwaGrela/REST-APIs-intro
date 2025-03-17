@@ -2,14 +2,13 @@ from datetime import timedelta
 from typing import Annotated, List, Optional
 
 from fastapi import Depends, FastAPI, HTTPException
-from fastapi.encoders import jsonable_encoder
 from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
 
 from . import crud, models, schemas
 from .models import Token, User
-from .auth_helpers import users, ACCESS_TOKEN_EXPIRE_MINUTES
 from .auth_helpers import Authenticator
+from .config import ACCESS_TOKEN_EXPIRE_MINUTES, users
 from .db import SessionLocal, engine
 
 models.Base.metadata.create_all(bind=engine)

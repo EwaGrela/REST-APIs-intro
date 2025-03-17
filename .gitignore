@@ -1,4 +1,5 @@
 *.db
+REST_APIs/fast_cities/config.py
 REST_APIs/fast_cities/sql_app.db
 REST_APIs/fast_cities/__pycache__/
 REST_APIs/fast_venv/
@@ -7,3 +8,4 @@ REST_APIs/flask_cities/instance/
 REST_APIs/flask_venv/
 fast_venv/
 flask_venv/
+
