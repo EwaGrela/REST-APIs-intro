@@ -8,7 +8,7 @@ from sqlalchemy.orm import Session
 
 from . import crud, models, schemas
 from .models import Token, User
-from .auth_helpers import fake_db, ACCESS_TOKEN_EXPIRE_MINUTES
+from .auth_helpers import users, ACCESS_TOKEN_EXPIRE_MINUTES
 from .auth_helpers import Authenticator
 from .db import SessionLocal, engine
 
@@ -34,7 +34,7 @@ def home():
 async def login_for_access_token(
     form_data: Annotated[OAuth2PasswordRequestForm, Depends()],
 ) -> Token:
-    user = authenticator.authenticate_user(fake_db, form_data.username, form_data.password)
+    user = authenticator.authenticate_user(users, form_data.username, form_data.password)
     if not user:
         raise HTTPException(
             status_code=401,

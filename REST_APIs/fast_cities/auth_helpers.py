@@ -21,7 +21,7 @@ pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
 
-fake_db = {
+users = {
     "jan_kowalski": {
         "username": "jan_kowalski",
         "hashed_password": "", # this one can be generated using get_password_hash("your-password-goes-here")
@@ -47,8 +47,8 @@ class Authenticator:
             return UserInDB(**user_dict)
 
 
-    def authenticate_user(self, fake_db, username: str, password: str):
-        user = self.get_user(fake_db, username)
+    def authenticate_user(self, users, username: str, password: str):
+        user = self.get_user(users, username)
         if not user:
             return False
         if not self.verify_password(password, user.hashed_password):
@@ -81,7 +81,7 @@ class Authenticator:
             token_data = TokenData(username=username)
         except InvalidTokenError:
             raise credentials_exception
-        user = self.get_user(fake_db, username=token_data.username)
+        user = self.get_user(users, username=token_data.username)
         if user is None:
             raise credentials_exception
         if user.disabled:
