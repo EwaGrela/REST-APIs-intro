@@ -99,6 +99,7 @@ def single_city(city: str, new_city_name: str, current_user: Annotated[User, Dep
     if city:
         client_id = current_user.client_id
         crud.put_city_by_city_name(db, city, client_id, new_city_name)
+        return {"changed city": city}
     else:
         raise HTTPException(status_code=404, detail="City does not exist")
 

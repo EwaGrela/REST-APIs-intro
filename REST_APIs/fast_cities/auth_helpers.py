@@ -9,7 +9,6 @@ from .config import pwd_context, oauth2_scheme, users, ALGORITHM, SECRET_KEY
 from .models import UserInDB, TokenData
 
 
-
 class Authenticator:
 
     @staticmethod
