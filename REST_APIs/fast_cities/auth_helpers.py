@@ -64,7 +64,7 @@ class Authenticator:
         user = self.get_user(users, username=token_data.username)
         if user is None:
             raise credentials_exception
-        if user.active:
+        if user.disabled:
             raise HTTPException(status_code=400, detail="Inactive user")
         return user
 
