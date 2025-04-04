@@ -1,4 +1,5 @@
-how to run the apps:
+
+# How to run the apps
 1. `basic_flask_app`:
 ``` source flask_venv/bin/activate
  cd basic_flask_app/
