@@ -74,7 +74,7 @@ def cities(city: schemas.CityBase, current_user: Annotated[User, Depends(authent
         crud.post_city(db, city, client_id)
         return {"success": True}
     else:
-        raise HTTPException(status_code=404, detail="Country does not exist, create country first")
+        raise HTTPException(status_code=400,detail="Country does not exist, create country first")
 
 @app.get("/cities/{city}", status_code=200)
 def single_city(city:str, db: Session = Depends(get_db)):
@@ -108,7 +108,7 @@ def country(db: Session = Depends(get_db)):
     countries = crud.get_country(db).all()
     return countries
 
-@app.post("/countries/")
+@app.post("/countries/", status_code=201)
 def country(country: schemas.CountryBase, current_user: Annotated[User, Depends(authenticator.get_current_user)], db: Session = Depends(get_db)):
     data = {}
     data["country"] = country.country
