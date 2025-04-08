@@ -68,7 +68,15 @@ def cities_to_post():
 def city_names():
     return ["Warsaw", "Krakow", "Wroclaw", "Gdansk", "Sopot", "Gdynia", "Zamosc", "Bialystok", "Poznan", "Gniezno"]
 
-def _helper_method(client, test_user, cities_to_post, test_db=test_db):
+def _basic_helper(client, test_user):
+    # authenticate yourself
+    token_response = client.post("/token", data=test_user)
+    token = token_response.json()["access_token"]
+    # post a country and add it into the database
+    client.post("/countries", headers={"Authorization": f"Bearer {token}"}, json={"country" : "Poland", "country_id": 1})
+    return token
+
+def _helper_method(client, test_user, cities_to_post):
     # authenticate yourself
     token_response = client.post("/token", data=test_user)
     token = token_response.json()["access_token"]
@@ -228,11 +236,10 @@ def test_post_cities_404(client, test_db, test_user, cities_to_post):
 
 def test_post_cities_400(client, test_db, test_user):
     # authenticate yourself
-    token_response = client.post("/token", data=test_user)
-    token = token_response.json()["access_token"]
+    token = _basic_helper(client, test_user)
     # post cities and check if response is correct
-    response = client.post("/cities", headers={"Authorization": f"Bearer {token}"}, json={"city": "London", "country_id": 1, "city_id": 1, "country": "United Kingdom"})
-    assert response.status_code == 404
+    response = client.post("/cities", headers={"Authorization": f"Bearer {token}"}, json={"city": "London", "country_id": 2, "city_id": 1, "country": "United Kingdom"})
+    assert response.status_code == 400
 
 def test_delete_city_404(client, test_db, test_user, cities_to_post):
     token = _helper_method(client, test_user, cities_to_post)

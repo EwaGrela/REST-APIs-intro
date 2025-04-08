@@ -74,7 +74,7 @@ def cities(city: schemas.CityBase, current_user: Annotated[User, Depends(authent
         crud.post_city(db, city, client_id)
         return {"success": True}
     else:
-        raise HTTPException(status_code=400,detail="Country does not exist, create country first")
+        raise HTTPException(status_code=400, detail="Country does not exist, create country first")
 
 @app.get("/cities/{city}", status_code=200)
 def single_city(city:str, db: Session = Depends(get_db)):
