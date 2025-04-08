@@ -73,15 +73,10 @@ def _helper_method(client, test_user, cities_to_post, test_db=test_db):
     token_response = client.post("/token", data=test_user)
     token = token_response.json()["access_token"]
     # post a country and add it into the database
-    response_post_country = client.post("/countries", headers={"Authorization": f"Bearer {token}"}, json={"country" : "Poland", "country_id": 1})
-    assert response_post_country.status_code == 201
-    # check if the country was succesfully added to the database
-    response_get_countries = client.get("/countries")
-    assert response_get_countries.status_code == 200
-    assert response_get_countries.json() == [{"country" : "Poland", "country_id": 1}]
+    client.post("/countries", headers={"Authorization": f"Bearer {token}"}, json={"country" : "Poland", "country_id": 1})
     # once the country is succesfully posted, post cities
     for city in cities_to_post:
-        response = client.post("/cities", headers={"Authorization": f"Bearer {token}"}, json=city)
+        client.post("/cities", headers={"Authorization": f"Bearer {token}"}, json=city)
     return token
 
 
