@@ -38,3 +38,16 @@ example of url for get (searchinh with query params): `http://127.0.0.1:5000/cit
 example of POST request body: 
 to /countries endoint: `{"country" : "Poland", "country_id": 1}`
 to /cities endpoint `{"city": "Warsaw", "country_id": 1, "city_id": 1, "country": "Poland"}`
+
+
+running all tests:
+```
+cd fast_cities
+pytest
+```
+
+running particular test:
+```
+cd fast_cities
+pytest -k <test_name>
+```
